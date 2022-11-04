@@ -12,7 +12,7 @@ const resolvers = {
 
         return userData;
       }
-      throw new AuthenticationError("Incorrect Info!");
+      throw new AuthenticationError("Not Logged In!");
     },
   },
   Mutation: {
@@ -25,12 +25,12 @@ const resolvers = {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
-        throw new AuthenticationError("Not Logged In!");
+        throw new AuthenticationError("Incorrect Info!");
       }
 
       const rightPw = await user.isCorrectPassword(password);
       if (!rightPw) {
-        throw new AuthenticationError("Incorrect info!");
+        throw new AuthenticationError("Incorrect Info!");
       }
 
       const token = signToken(user);
